@@ -46,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         String hostname = "www.abanka.si";
+        String hash = "sha256/KjTdv041ZnkTbXv2/idCJyb2BP9ZHk6R4KZJe1BURts=";
 
         CertificatePinner certificatePinner = new CertificatePinner.Builder()
-                .add(hostname, "sha256/KjTdv041ZnkTbXv2/idCJyb2BP9ZHk6R4KZJe1BURts=")
+                .add(hostname, hash)
                 .build();
 
         OkHttpClient client = new OkHttpClient.Builder()
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             client.newCall(request).execute();
         } catch (IOException e) {
-          //  e.printStackTrace();
+            e.printStackTrace();
         }
 
         Response response = null;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             response = client.newCall(request).execute();
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
         } catch (IOException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
 
