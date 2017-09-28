@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             client.newCall(request).execute();
         } catch (IOException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
         }
 
         Response response = null;
@@ -69,11 +69,12 @@ public class MainActivity extends AppCompatActivity {
             response = client.newCall(request).execute();
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
-        
+
 
         for (Certificate certificate : response.handshake().peerCertificates()) {
+
             Context context = getApplicationContext();
             CharSequence text = CertificatePinner.pin(certificate);
             int duration = Toast.LENGTH_SHORT;
