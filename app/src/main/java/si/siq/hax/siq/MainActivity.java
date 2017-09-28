@@ -1,6 +1,7 @@
 package si.siq.hax.siq;
 
 import android.app.DownloadManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
@@ -11,8 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.io.IOException;
+import java.security.cert.Certificate;
 
 import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         String hostname = "www.abanka.si";
 
         CertificatePinner certificatePinner = new CertificatePinner.Builder()
-                .add(hostname, "sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
+                .add(hostname, "sha256/KjTdv041ZnkTbXv2/idCJyb2BP9ZHk6R4KZJe1BURts=")
                 .build();
 
         OkHttpClient client = new OkHttpClient.Builder()
@@ -59,6 +62,24 @@ public class MainActivity extends AppCompatActivity {
             client.newCall(request).execute();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        Response response = null;
+        try {
+            response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+
+        for (Certificate certificate : response.handshake().peerCertificates()) {
+            Context context = getApplicationContext();
+            CharSequence text = CertificatePinner.pin(certificate);
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         }
 
     }
