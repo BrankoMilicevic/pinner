@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        String hostname = "publicobject.com";
+        String hostname = "www.abanka.si";
 
         CertificatePinner certificatePinner = new CertificatePinner.Builder()
                 .add(hostname, "sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
